@@ -51,7 +51,7 @@
     </distributionManagement>
     
     <scm>
-        <developerConnection>https://github.com/FancyFon/AndroidOSSUtils.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/FancyFon/AndroidOSSUtils.git</developerConnection>
     </scm>
     <dependencies>
         <dependency>
