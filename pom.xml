@@ -50,9 +50,6 @@
         </snapshotRepository>
     </distributionManagement>
     
-    <scm>
-        <developerConnection>scm:git:https://github.com/FancyFon/AndroidOSSUtils.git</developerConnection>
-    </scm>
     <dependencies>
         <dependency>
             <groupId>org.apache.james</groupId>
@@ -78,4 +75,11 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    
+    <scm>
+        <connection>scm:git:ssh://github.com/FancyFon/AndroidOSSUtils.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/FancyFon/AndroidOSSUtils.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/FancyFon/AndroidOSSUtils</url>    
+    </scm>
 </project>
