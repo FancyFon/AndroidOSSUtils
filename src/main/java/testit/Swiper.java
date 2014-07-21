@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 
  *
- * Created by mariusz.rafalski on 2014-07-21.
+ * Created by mariusz.rafalski<mariusz.rafalski@fancyfon.com> on 2014-07-21.
+ *
  */
 public class Swiper {
     private final JavascriptExecutor driver;
