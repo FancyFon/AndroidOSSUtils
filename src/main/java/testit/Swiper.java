@@ -1,4 +1,4 @@
-package com.appium.famoc.utilis;
+package testit;
 
 import org.openqa.selenium.JavascriptExecutor;
 
