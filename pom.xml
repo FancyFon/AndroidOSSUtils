@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fancyfon.mobile.android.oss</groupId>
     <artifactId>AndroidOSSUtils</artifactId>
-    <version>1.1.2-SNAPSHOT</version>
+    <version>1.1.2</version>
 
     <name>Android OSS Utils 1.1</name>
     <build>
@@ -88,13 +88,6 @@
             <artifactId>hamcrest-all</artifactId>
             <version>1.3</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>LATEST</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-ext-jdk16</artifactId>
@@ -110,6 +103,6 @@
     
     <scm>
         <developerConnection>scm:git:git@github.com:FancyFon/AndroidOSSUtils.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>AndroidOSSUtils-1.1.2</tag>
     </scm>
 </project>
