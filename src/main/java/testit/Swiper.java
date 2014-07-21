@@ -12,70 +12,34 @@ import java.util.HashMap;
  */
 public class Swiper {
     private final JavascriptExecutor driver;
-    private final Double startX;
-    private final Double endX;
-    private final Double startY;
-    private final Double endY;
 
-    public JavascriptExecutor getDriver() {
-        return driver;
+    public Swiper(JavascriptExecutor driver) {
+        this.driver = driver;
     }
 
-    public Double getStartX() {
-        return startX;
+    public void verticalSwipe(Double startY, Double endY){
+        swipe(0.5, 0.5,startY,endY);
     }
 
-    public Double getEndX() {
-        return endX;
+    public void horizontalSwipe(Double startX, Double endY){
+        swipe(startX, endY,0.5,0.5);
     }
 
-    public Double getStartY() {
-        return startY;
-    }
 
-    public Double getEndY() {
-        return endY;
-    }
-    public void swipe(){
-        JavascriptExecutor js = driver;
+    public void swipe(Double startX, Double endX,Double startY, Double endY ){
         HashMap<String, Double> swipePlace = new HashMap<String, Double>();
         swipePlace.put("startX", startX);
         swipePlace.put("startY", startY);
         swipePlace.put("endX", endX);
         swipePlace.put("endY", endY);
         swipePlace.put("duration", 1.8);
-        js.executeScript("mobile: swipe", swipePlace);
-    }
-
-
-    private Swiper(SwiperBuilder builder){
-        this.driver = builder.driver;
-        this.startX = builder.startX;
-        this.endX = builder.endX;
-        this.startY = builder.startY;
-        this.endY = builder.endY;
+        driver.executeScript("mobile: swipe", swipePlace);
     }
 
 
 
-    public static class SwiperBuilder {
-        private final JavascriptExecutor driver;
-        private final Double startX;
-        private final Double endX;
-        private final Double startY;
-        private final Double endY;
-
-        public SwiperBuilder(JavascriptExecutor driver, Double startX, Double endX, Double startY, Double endY) {
-            this.driver = driver;
-            this.startX = startX;
-            this.endX = endX;
-            this.startY = startY;
-            this.endY = endY;
-        }
 
 
-        public Swiper build() {
-            return new Swiper(this);
-        }
-    }
+
+
 }
