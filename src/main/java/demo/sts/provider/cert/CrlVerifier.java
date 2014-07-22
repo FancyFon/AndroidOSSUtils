@@ -85,8 +85,13 @@ public class CrlVerifier {
      * distribution point extension is unavailable, returns an empty list.
      */
     private static List<String> getCrlDistributionPoints(X509Certificate cert) throws CertificateParsingException, IOException {
-        byte[] crldpExt = cert
-                .getExtensionValue(X509Extensions.CRLDistributionPoints.getId());
+        byte[] crldpExt = null;
+        try {
+            crldpExt = cert.getExtensionValue(X509Extensions.CRLDistributionPoints.getId());
+        }catch(NoSuchFieldError e){
+
+        }
+
         if (crldpExt == null) {
             return new ArrayList<String>();
         }
