@@ -12,15 +12,15 @@ public class KMPMatch {
      * 
      * @return index of first occurence, or -1 if not found
      */
-    public int indexOf(byte[] data, byte[] pattern) {
+    public int indexOf(byte[] data, byte[] pattern, int startPosition) {
         int[] failure = computeFailure(pattern);
 
         int j = 0;
-        if (data.length == 0) {
+        if (data.length <= startPosition) {
             return -1;
         }
 
-        for (int i = 0; i < data.length; i++) {
+        for (int i = startPosition; i < data.length; i++) {
             while (j > 0 && pattern[j] != data[i]) {
                 j = failure[j - 1];
             }
