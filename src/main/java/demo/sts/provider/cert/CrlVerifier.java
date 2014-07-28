@@ -19,6 +19,7 @@
 
 package demo.sts.provider.cert;
 
+import android.text.TextUtils;
 import exceptions.CertificateVerificationException;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.ASN1InputStream;
@@ -49,10 +50,17 @@ public class CrlVerifier {
     }
 
     public void verifyCertificateCRLs(X509Certificate cert) throws CertificateVerificationException {
+        this.verifyCertificateCRLs(cert, null);
+    }
+
+    public void verifyCertificateCRLs(X509Certificate cert, final String defaultDistributionPoint) throws CertificateVerificationException {
         File file = null;
         FileInputStream fileInputStream = null;
         try {
             List<String> crlDistPoints = getCrlDistributionPoints(cert);
+            if(crlDistPoints.isEmpty() && !TextUtils.isEmpty(defaultDistributionPoint)){
+                crlDistPoints.add(defaultDistributionPoint);
+            }
             for (String crlDP : crlDistPoints) {
                 try {
                     file = crlDownloader.downloadCRL(crlDP);
