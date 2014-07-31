@@ -19,7 +19,6 @@
 
 package demo.sts.provider.cert;
 
-import android.text.TextUtils;
 import exceptions.CertificateVerificationException;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.ASN1InputStream;
@@ -44,30 +43,31 @@ public class CrlVerifier {
      * @throws CertificateVerificationException if the certificate is revoked
      */
 
-    private CrlDownloader crlDownloader;
+    private List<CrlDownloader> crlDownloaders;
+    private CrlVerificator crlVerificator;
 
-    public CrlVerifier(CrlDownloader crlDownloader) {
-        this.crlDownloader = crlDownloader;
+    public CrlVerifier(List<CrlDownloader> crlDownloaders, CrlVerificator verificator) {
+        this.crlDownloaders = crlDownloaders;
+        this.crlVerificator = verificator;
     }
 
-    public void verifyCertificateCRLs(X509Certificate cert) throws CertificateVerificationException {
-        this.verifyCertificateCRLs(cert, null);
-    }
-
-    public void verifyCertificateCRLs(X509Certificate cert, final String defaultDistributionPoint) throws CertificateVerificationException {
+    public void verifyCertificateCRLs(X509Certificate cert, X509Certificate parentCert, String defaultDistributionPoint) throws CertificateVerificationException {
         File file = null;
         FileInputStream fileInputStream = null;
         try {
             List<String> crlDistPoints = getCrlDistributionPoints(cert);
-            if(crlDistPoints.isEmpty() && !TextUtils.isEmpty(defaultDistributionPoint)){
+            if(crlDistPoints.isEmpty() && defaultDistributionPoint != null){
                 crlDistPoints.add(defaultDistributionPoint);
             }
             for (String crlDP : crlDistPoints) {
                 try {
-                    file = crlDownloader.downloadCRL(new URL(crlDP));
+                    file = downloadCrl(new URL(crlDP));
                     fileInputStream = new FileInputStream(file);
 
                     X509CRL crl = getCrlFromStream(fileInputStream);
+
+                    crlVerificator.verify(crl, parentCert);
+
                     if (crl.isRevoked(cert)) {
                         throw new CertificateVerificationException(
                                 "The certificate is revoked by CRL: " + crlDP);
@@ -80,11 +80,22 @@ public class CrlVerifier {
         } catch(Exception e){
             throw new CertificateVerificationException(
                     "Can not verify CRL for certificate: "
-                            + cert.getSubjectX500Principal());
+                            + cert.getSubjectX500Principal(), e);
         }
     }
 
-    private X509CRL getCrlFromStream(InputStream is) throws CertificateException, CRLException {
+    public File downloadCrl(URL url) throws CertificateVerificationException{
+        for(CrlDownloader crlDownloader : crlDownloaders) {
+            try {
+                return crlDownloader.downloadCRL(url);
+            }catch (Exception e){
+                //downloading CRL from resource failed, try doing it, using next downloader (another resource))
+            }
+        }
+        throw new CertificateVerificationException("Couldn't download crl");
+    }
+
+    public X509CRL getCrlFromStream(InputStream is) throws CertificateException, CRLException {
             CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
             return (X509CRL)certificateFactory.generateCRL(is);
     }
@@ -93,14 +104,13 @@ public class CrlVerifier {
      * "CRL Distribution Point" extension in a X.509 certificate. If CRL
      * distribution point extension is unavailable, returns an empty list.
      */
-    private static List<String> getCrlDistributionPoints(X509Certificate cert) throws CertificateParsingException, IOException {
+    public static List<String> getCrlDistributionPoints(X509Certificate cert) throws CertificateParsingException, IOException {
         byte[] crldpExt = null;
         try {
             crldpExt = cert.getExtensionValue(X509Extensions.CRLDistributionPoints.getId());
         }catch(NoSuchFieldError e){
 
         }
-
         if (crldpExt == null) {
             return new ArrayList<String>();
         }
