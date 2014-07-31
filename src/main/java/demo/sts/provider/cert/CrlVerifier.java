@@ -29,6 +29,7 @@ import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.x509.*;
 
 import java.io.*;
+import java.net.URL;
 import java.security.cert.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class CrlVerifier {
             }
             for (String crlDP : crlDistPoints) {
                 try {
-                    file = crlDownloader.downloadCRL(crlDP);
+                    file = crlDownloader.downloadCRL(new URL(crlDP));
                     fileInputStream = new FileInputStream(file);
 
                     X509CRL crl = getCrlFromStream(fileInputStream);

@@ -8,6 +8,7 @@ import exceptions.CertificateVerificationException;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.security.cert.CRLException;
 import java.security.cert.CertificateException;
 
@@ -16,7 +17,7 @@ import java.security.cert.CertificateException;
  */
 public interface CrlDownloader {
 
-    File downloadCRL(String path) throws IOException,
+    File downloadCRL(URL url) throws IOException,
             CertificateException, CRLException,
             CertificateVerificationException;
 }
