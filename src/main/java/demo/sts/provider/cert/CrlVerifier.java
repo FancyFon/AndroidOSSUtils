@@ -19,6 +19,7 @@
 
 package demo.sts.provider.cert;
 
+import android.text.TextUtils;
 import exceptions.CertificateVerificationException;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.ASN1InputStream;
@@ -44,11 +45,11 @@ public class CrlVerifier {
      */
 
     private List<CrlDownloader> crlDownloaders;
-    private CrlVerificator crlVerificator;
+    private CrlIssuerVerifier crlIssuerVerifier;
 
-    public CrlVerifier(List<CrlDownloader> crlDownloaders, CrlVerificator verificator) {
+    public CrlVerifier(List<CrlDownloader> crlDownloaders, CrlIssuerVerifier verifier) {
         this.crlDownloaders = crlDownloaders;
-        this.crlVerificator = verificator;
+        this.crlIssuerVerifier = verifier;
     }
 
     public void verifyCertificateCRLs(X509Certificate cert, X509Certificate parentCert, String defaultDistributionPoint) throws CertificateVerificationException {
@@ -56,7 +57,8 @@ public class CrlVerifier {
         FileInputStream fileInputStream = null;
         try {
             List<String> crlDistPoints = getCrlDistributionPoints(cert);
-            if(crlDistPoints.isEmpty() && defaultDistributionPoint != null){
+            if(crlDistPoints.isEmpty() && !TextUtils.isEmpty(defaultDistributionPoint)){
+                crlDistPoints = new ArrayList<String>();
                 crlDistPoints.add(defaultDistributionPoint);
             }
             for (String crlDP : crlDistPoints) {
@@ -66,7 +68,7 @@ public class CrlVerifier {
 
                     X509CRL crl = getCrlFromStream(fileInputStream);
 
-                    crlVerificator.verify(crl, parentCert);
+                    crlIssuerVerifier.verify(crl, parentCert);
 
                     if (crl.isRevoked(cert)) {
                         throw new CertificateVerificationException(

@@ -15,7 +15,7 @@ import java.security.cert.X509Certificate;
 /**
  * @author Marcin Paszylk <marcin.paszylk@fancyfon.com>
  */
-public interface CrlVerificator {
+public interface CrlIssuerVerifier {
     public void verify(X509CRL crl, X509Certificate certificate) throws NoSuchProviderException,
             InvalidKeyException, NoSuchAlgorithmException, CRLException, SignatureException;
 }
