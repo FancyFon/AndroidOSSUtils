@@ -43,6 +43,7 @@ public class CrlVerifier {
      *
      * @throws CertificateVerificationException if the certificate is revoked
      */
+    private static final String CRL_DISTRIBUTION_POINT_ID = "2.5.29.31";
 
     private List<CrlDownloader> crlDownloaders;
     private CrlIssuerVerifier crlIssuerVerifier;
@@ -107,12 +108,8 @@ public class CrlVerifier {
      * distribution point extension is unavailable, returns an empty list.
      */
     public static List<String> getCrlDistributionPoints(X509Certificate cert) throws CertificateParsingException, IOException {
-        byte[] crldpExt = null;
-        try {
-            crldpExt = cert.getExtensionValue(X509Extensions.CRLDistributionPoints.getId());
-        }catch(NoSuchFieldError e){
+        byte[] crldpExt = cert.getExtensionValue(CRL_DISTRIBUTION_POINT_ID);
 
-        }
         if (crldpExt == null) {
             return new ArrayList<String>();
         }
