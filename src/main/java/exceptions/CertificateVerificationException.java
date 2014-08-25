@@ -23,8 +23,4 @@ public class CertificateVerificationException extends Exception {
     public CertificateVerificationException(Throwable cause) {
         super(cause);
     }
-
-    public CertificateVerificationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
 }
