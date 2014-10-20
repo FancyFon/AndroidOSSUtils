@@ -16,6 +16,7 @@
  */
 package org.apache.commons.io;
 
+import android.database.Cursor;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -44,7 +45,6 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.commons.io.output.StringBuilderWriter;
 
@@ -406,6 +406,15 @@ public class IOUtils {
         }
     }
 
+    public static void closeQuietly(Cursor cursor){
+        if (cursor != null){
+            try {
+                cursor.close();
+            } catch (Exception ioe) {
+                // ignored
+            }
+        }
+    }
     /**
      * Fetches entire contents of an <code>InputStream</code> and represent
      * same data as result InputStream.
