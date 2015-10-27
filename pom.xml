@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fancyfon.mobile.android.oss</groupId>
     <artifactId>AndroidOSSUtils</artifactId>
-    <version>1.1.12-SNAPSHOT</version>
+    <version>1.1.13-SNAPSHOT</version>
 
     <name>Android OSS Utils 1.1</name>
     <build>
@@ -57,19 +57,6 @@
         <name>FancyFon</name>
         <url>http://fancyfon.com</url>
     </organization>
-    
-    <distributionManagement>
-        <repository>
-            <id>archiva-internal</id>
-            <name>Archiva Internal Repository</name>
-            <url>http://archiva/repository/internal/</url>
-        </repository>
-        <snapshotRepository>
-            <id>archiva-snapshots</id>
-            <name>Archiva Snapshot Repository</name>
-            <url>http://archiva/repository/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
     
     <dependencies>
         <dependency>
