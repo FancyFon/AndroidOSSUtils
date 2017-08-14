@@ -96,8 +96,8 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-ext-jdk16</artifactId>
-            <version>1.46</version>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.57</version>
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>

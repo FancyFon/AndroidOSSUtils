@@ -23,8 +23,8 @@ import android.text.TextUtils;
 import exceptions.CertificateVerificationException;
 import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.ASN1InputStream;
+import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.DERIA5String;
-import org.bouncycastle.asn1.DERObject;
 import org.bouncycastle.asn1.DEROctetString;
 import org.bouncycastle.asn1.x509.*;
 
@@ -115,13 +115,13 @@ public class CrlVerifier {
         }
         ASN1InputStream oAsnInStream = new ASN1InputStream(
                 new ByteArrayInputStream(crldpExt));
-        DERObject derObjCrlDP = oAsnInStream.readObject();
-        DEROctetString dosCrlDP = (DEROctetString) derObjCrlDP;
+        ASN1Primitive ASN1PrimitiveCrlDP = oAsnInStream.readObject();
+        DEROctetString dosCrlDP = (DEROctetString) ASN1PrimitiveCrlDP;
         byte[] crldpExtOctets = dosCrlDP.getOctets();
         ASN1InputStream oAsnInStream2 = new ASN1InputStream(
                 new ByteArrayInputStream(crldpExtOctets));
-        DERObject derObj2 = oAsnInStream2.readObject();
-        CRLDistPoint distPoint = CRLDistPoint.getInstance(derObj2);
+        ASN1Primitive asn1Primitive2 = oAsnInStream2.readObject();
+        CRLDistPoint distPoint = CRLDistPoint.getInstance(asn1Primitive2);
         List<String> crlUrls = new ArrayList<String>();
         for (DistributionPoint dp : distPoint.getDistributionPoints()) {
             DistributionPointName dpn = dp.getDistributionPoint();
