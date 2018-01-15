@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.fancyfon.mobile.android.oss</groupId>
     <artifactId>AndroidOSSUtils</artifactId>
-    <version>1.4.0</version>
+    <version>1.4.1-SNAPSHOT</version>
 
     <name>Android OSS Utils 1.2</name>
     <build>
@@ -116,6 +116,6 @@
     
     <scm>
         <developerConnection>scm:git:git@github.com:FancyFon/AndroidOSSUtils.git</developerConnection>
-        <tag>AndroidOSSUtils-1.4.0</tag>
+        <tag>HEAD</tag>
     </scm>
 </project>
