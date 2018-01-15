@@ -21,7 +21,6 @@ package demo.sts.provider.cert;
 
 import android.text.TextUtils;
 import exceptions.CertificateVerificationException;
-import org.apache.commons.io.IOUtils;
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.DERIA5String;
@@ -76,7 +75,9 @@ public class CrlVerifier {
                                 "The certificate is revoked by CRL: " + crlDP);
                     }
                 }finally {
-                    IOUtils.closeQuietly(fileInputStream);
+                    if(fileInputStream != null) {
+                        fileInputStream.close();
+                    }
                     deleteFile(file);
                 }
             }
